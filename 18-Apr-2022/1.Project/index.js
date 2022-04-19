@@ -1,7 +1,6 @@
-// change the count-el in the HTML to reflect the new count
 let countEl = document.getElementById("counter-el");
+let saveEl = document.getElementById("save-el");
 //console.log(countEl); //Checking for bug
-
 let count = 0;
 
 // Creating increment function to count
@@ -12,6 +11,9 @@ function increment() {
 
 // Creating save function to save the count
 function save() {
-    console.log(count);
+    let countStr = count + " - ";
+    saveEl.textContent += countStr;
+    countEl.textContent = 0;
+    count = 0;
 }
 save();
