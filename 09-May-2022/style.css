@@ -1,18 +1,25 @@
 body {
-    margin: 0;
+  margin: 0;
+}
+
+div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .nice-button {
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    font-size: 30px;
-    width: 20%;
-    padding: 20px;
-    background-color: white;
-    color: gold;
-    font-weight: bold;
-    cursor: pointer;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  font-size: 30px;
+  width: 20%;
+  padding: 20px;
+  background-color: white;
+  color: gold;
+  font-weight: bold;
+  cursor: pointer;
 }
+
 .nice-button:active {
-    background-color: gold;
-    color: white;
+  background-color: gold;
+  color: white;
 }
