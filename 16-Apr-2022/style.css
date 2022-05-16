@@ -1,0 +1,71 @@
+body {
+  margin: 0;
+}
+.container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  padding: 1rem;
+}
+.big-box {
+  display: flex;
+  width: 100px;
+  height: 100px;
+  border: 1px solid #000;
+  margin: 1rem;
+  text-align: center;
+  counter-reset: box;
+}
+.box::before {
+  counter-increment: box;
+  content: counter(box);
+  color: #fff;
+}
+.box {
+  width: calc(60% / 3);
+  height: calc(60% / 3);
+  background: green;
+  border: 1px solid #fff;
+}
+.flex-direction-row-reverse {
+  flex-direction: row-reverse;
+}
+.flex-direction-column {
+  flex-direction: column;
+}
+.justify-flex-start {
+  justify-content: flex-start;
+}
+.justify-flex-center {
+  justify-content: center;
+}
+.justify-flex-end {
+  justify-content: flex-end;
+}
+.justify-space-evenly {
+  justify-content: space-evenly;
+}
+.justify-space-around {
+  justify-content: space-around;
+}
+.justify-space-between {
+  justify-content: space-between;
+}
+.align-flex-start {
+  align-items: flex-start;
+}
+.align-flex-center {
+  align-items: center;
+}
+.align-flex-end {
+  align-items: flex-end;
+}
+.align-space-evenly {
+  align-items: space-evenly;
+}
+.align-space-around {
+  align-items: space-around;
+}
+.align-space-between {
+  align-items: space-between;
+}

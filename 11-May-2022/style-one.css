@@ -1,5 +1,9 @@
+body {
+  margin: 0;
+}
+
 .header {
-  padding: 20px;
+  padding: 1em;
   background: #000;
   box-sizing: border-box;
 }
@@ -16,6 +20,7 @@
 .logo img {
   border: 2px solid #fff;
   border-radius: 50%;
+  vertical-align: middle;
 }
 
 .navigation {
@@ -26,29 +31,72 @@
   right: 0;
 }
 
-.navItems {
+.nav-items {
   display: none;
   right: 0;
   border: 1px solid #000;
   position: absolute;
 }
 
-.navItems p {
-  padding: 20px;
-  width: 100px;
+.nav-items p {
+  padding: 1rem 2rem;
   text-align: center;
   background: #fff;
   color: #000;
+  margin: 0;
 }
 
-.navBtn {
-  padding: 10px 35px;
-  background: #fff;
-  border: 2px solid smokewhite;
-  font-size: 1em;
+.nav-items p:hover {
+  background: #ccc;
+  color: #fff;
   cursor: pointer;
 }
 
-.navigation:hover .navItems {
+.nav-btn {
+  padding: 1rem;
+  background: #fff;
+  border: 2px solid smokewhite;
+  cursor: pointer;
+}
+
+.navigation:hover .nav-items {
   display: block;
+}
+
+.main-section {
+  padding: 1em;
+}
+
+.img-section {
+  float: right;
+  padding: 0 0 1em 1em;
+  vertical-align: middle;
+}
+
+.text-section {
+  text-align: justify;
+}
+
+.education-section table {
+  width: 100%;
+  text-align: center;
+}
+
+.pqrs-child {
+  position: absolute;
+  top: 30%;
+  right: 30%;
+  transform: translateX(-50%);
+  display: none;
+}
+
+span:hover .pqrs-child {
+  display: block;
+}
+
+.pqrs-child li {
+  list-style-type: none;
+  padding: 1rem 2rem;
+  background: #000;
+  color: #fff;
 }
