@@ -1,0 +1,12 @@
+<div class="container">
+  <app-first-part
+    [count-for-one]="countForTwo"
+    (detectChange)="getSecondValue($event)"
+    class="box"
+  ></app-first-part>
+  <app-second-part
+    [count-for-two]="countForOne"
+    (detectChange)="getFirstValue($event)"
+    class="box"
+  ></app-second-part>
+</div>

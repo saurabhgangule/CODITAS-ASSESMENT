@@ -1,0 +1,22 @@
+/* You can add global styles to this file, and also import other style files */
+body {
+  margin: 0;
+}
+
+.container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+.box {
+  text-align: center;
+  padding: 1rem;
+  border: thin solid #ccc;
+}
+
+.box button {
+  cursor: pointer;
+}
