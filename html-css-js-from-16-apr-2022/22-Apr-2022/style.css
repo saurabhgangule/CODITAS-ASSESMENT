@@ -1,0 +1,114 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    background-color: #000;
+}
+.navbar {
+    background-color: #fff;
+}
+.divsize {
+    min-height: 70vh;
+    color: yellowgreen;
+    font-size: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    text-transform: uppercase;
+}
+.banner {
+    color: #fff;
+    text-align: center;
+    padding: 10px 15px;
+    background-color: #000;
+}
+.filter-coffee {
+    background: url('./images/coffee-banner.jpg') center/cover no-repeat fixed;
+}
+.special-coffee {
+    background: url('./images/special-coffee.jpg') center/cover no-repeat fixed;
+}
+.last-coffee {
+    background: url('./images/last-coffee.jpg') center/cover no-repeat fixed;
+}
+.m-1 {
+    margin: 1rem;
+}
+.navbar {
+    text-align: center;
+}
+.logo {
+    flex-direction: column;
+}
+#logo {
+    width: 200px;
+}
+#logo-text {
+    font-size: 2rem;
+    text-transform: uppercase;
+}
+ul li {
+    display: inline-block;
+    margin: 20px;
+}
+ul li a {
+    text-transform: uppercase;
+    text-decoration: none;
+    font-size: 20px;
+}
+p {
+    font-size: x-large;
+    text-align: justify;
+    padding: 2rem;
+    background-color: #000;
+    color: #fff;
+}
+.ex-links {
+    display: block;
+    text-align: center;
+    background-color: yellowgreen;
+    padding: 1rem;
+}
+.ex-links a {
+    text-decoration: none;
+    text-transform: uppercase;
+    margin-bottom: 0;
+}
+.table-format {
+    background-color: #fff;
+}
+.form-control {
+    height: 80vh;
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+    background-color: #fff;
+    /* text-align: center; */
+    position: relative;
+}
+.form-control form {
+    width: 50vw;
+}
+.form-label {
+    display: block;
+    font-size: 1em;
+    margin-bottom: 1rem;
+}
+.form-control input, textarea, .submit-btn {
+    padding: 10px;
+    width: 100%;
+    /* margin-bottom: 1rem; */
+    border: 1px solid #000;
+}
+.submit-btn {
+    margin: 1rem 0;
+    text-transform: uppercase;
+    font-weight: bold;
+    background-color: yellowgreen;
+    cursor: pointer;
+}
