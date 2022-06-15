@@ -1,0 +1,24 @@
+<div class="todo-detail p-4 row mb-3" (click)="onTodoClicked()">
+  <div class="col-md-1 align-self-center p-0">
+    <!--  bg-dark text-white -->
+    <i
+      class="fa fa-check check"
+      [ngClass]="{ 'bg-dark text-white': todo.completed }"
+    ></i>
+  </div>
+  <div class="col-md-9 p-0">
+    <p class="m-0" [class.active]="todo.completed">{{ todo.text }}</p>
+  </div>
+  <div class="action col-md-2 p-0" (click)="$event.stopPropagation()">
+    <button class="btn btn-sm btn-dark" type="button" (click)="updateTodo()">
+      <i class="fa fa-pencil"></i>
+    </button>
+    <button
+      class="btn btn-sm btn-dark ml-2"
+      type="button"
+      (click)="deleteTodo()"
+    >
+      <i class="fa fa-trash"></i>
+    </button>
+  </div>
+</div>

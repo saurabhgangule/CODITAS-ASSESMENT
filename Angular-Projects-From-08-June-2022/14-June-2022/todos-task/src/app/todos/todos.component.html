@@ -1,0 +1,56 @@
+<main class="main-section">
+  <section class="header p-5"><h1>Todos</h1></section>
+  <section class="input-section position-relative container p-4">
+    <h3>New Todo</h3>
+    <form
+      class="needs-validation"
+      #form="ngForm"
+      (ngSubmit)="onFormSubmit(form)"
+    >
+      <div class="row">
+        <div class="col-md-10">
+          <input
+            ngModel
+            type="text"
+            name="todoText"
+            placeholder="Type todo text..."
+            class="form-control"
+            #todoTextFeild="ngModel"
+            minlength="2"
+            required
+          />
+        </div>
+        <div class="col-md-2">
+          <button class="btn btn-dark btn-block" type="submit">
+            <i class="fa fa-plus"></i> Add
+          </button>
+        </div>
+      </div>
+      <div *ngIf="todoTextFeild.invalid && showValidationErrors">
+        <p class="m-0 text-danger" *ngIf="todoTextFeild.errors?.['required']">
+          <small>Type something to add todo</small>
+        </p>
+        <p class="m-0 text-danger" *ngIf="todoTextFeild.errors?.['minlength']">
+          <small>Todo must be greater than 2 chars.</small>
+        </p>
+      </div>
+    </form>
+  </section>
+
+  <section class="to-do-list container">
+    <app-todo-item
+      *ngFor="let todo of todos"
+      [todo]="todo"
+      (todoClicked)="toggleCompleted(todo)"
+      (todoDeleteClicked)="deleteTodo(todo)"
+      (todoUpdateClicked)="updateTodo(todo)"
+    ></app-todo-item>
+    <app-edit-modal
+      [display]="display"
+      (closeModal)="onCloseHandled()"
+      (sendUpdatedData)="replaceTodo($event)"
+      [todo]="currentTodo"
+      [currentText]="todoText"
+    ></app-edit-modal>
+  </section>
+</main>

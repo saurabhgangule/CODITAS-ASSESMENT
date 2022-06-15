@@ -1,0 +1,28 @@
+.todo-detail {
+  background-color: #fff;
+  border-radius: 4px;
+  box-shadow: 2px 2px 6px 2px #ccc;
+}
+
+.todo-detail .check {
+  padding: 0.5rem;
+  color: transparent;
+  border: thin solid #ccc;
+}
+
+.todo-detail .active {
+  color: #ccc;
+}
+
+.todo-detail:hover .check,
+.todo-detail:hover {
+  color: #ccc;
+  cursor: pointer;
+}
+
+.action {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+}

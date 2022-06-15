@@ -1,0 +1,51 @@
+<div
+  [class]="{ backdrop: display === 'block' }"
+  [ngStyle]="{ display: display }"
+></div>
+<div class="modal" tabindex="-1" role="dialog" [ngStyle]="{ display: display }">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <form #form="ngForm" (ngSubmit)="onUpdate(form)">
+        <div class="modal-body">
+          <input
+            name="updatedTodoText"
+            type="text"
+            [(ngModel)]="currentText"
+            class="form-control"
+            #todoTextFeild="ngModel"
+            minlength="2"
+            required
+          />
+          <input type="hidden" name="currentTodo" [ngModel]="todo" />
+          <div *ngIf="todoTextFeild.invalid && showValidationErrors">
+            <p
+              class="m-0 text-danger"
+              *ngIf="todoTextFeild.errors?.['required']"
+            >
+              <small>Type something to add todo</small>
+            </p>
+            <p
+              class="m-0 text-danger"
+              *ngIf="todoTextFeild.errors?.['minlength']"
+            >
+              <small>Todo must be greater than 2 chars.</small>
+            </p>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-dark">Update</button>
+          <button
+            type="button"
+            class="btn btn-default"
+            (click)="onCloseHandled()"
+          >
+            Close
+          </button>
+        </div>
+      </form>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+<!-- /.modal !-->

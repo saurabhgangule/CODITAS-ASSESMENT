@@ -1,0 +1,8 @@
+<main class="container">
+  <div class="list" *ngFor="let list of data">
+    <div class="box" [ngClass]="setClass(list.score)">
+      <span class="block">{{ list.name }}</span>
+      <span class="block">{{ list.score }}</span>
+    </div>
+  </div>
+</main>

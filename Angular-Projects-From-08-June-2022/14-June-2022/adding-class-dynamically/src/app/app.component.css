@@ -1,0 +1,29 @@
+.box {
+  padding: 1rem;
+  margin: 1rem;
+  width: max-content;
+  color: #fff;
+}
+
+.block {
+  display: inline-block;
+  padding: 1rem;
+  border: thin solid #fff;
+  width: 100px;
+}
+
+.green {
+  background-color: green;
+}
+
+.amber {
+  background-color: #ffbf00;
+}
+
+.red {
+  background-color: red;
+}
+
+.maroon {
+  background-color: maroon;
+}

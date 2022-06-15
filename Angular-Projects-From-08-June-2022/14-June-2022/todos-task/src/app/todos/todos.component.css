@@ -1,0 +1,23 @@
+.container {
+  width: 60%;
+}
+.header {
+  padding: 2rem;
+  text-align: center;
+  background-color: #ccc;
+}
+
+.input-section h3 {
+  margin: 0 0 1rem 0;
+}
+
+.position-relative {
+  position: relative;
+  top: -2rem;
+}
+
+.input-section {
+  background-color: #fff;
+  border-radius: 4px;
+  box-shadow: 2px 2px 6px 2px #ccc;
+}
