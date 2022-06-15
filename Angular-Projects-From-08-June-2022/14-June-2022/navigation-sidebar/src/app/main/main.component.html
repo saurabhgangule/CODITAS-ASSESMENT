@@ -1,0 +1,44 @@
+<div class="row">
+  <div class="sidebar" role="cdb-sidebar" color="white">
+    <div class="sidebar-container">
+      <div class="sidebar-header toggle">
+        <a class="sidebar-brand">Navigation</a>
+        <!-- <a class="sidebar-toggler"><i class="fa fa-bars"></i></a> -->
+      </div>
+      <div class="sidebar-nav">
+        <div class="sidenav">
+          <a routerLink="./home" routerLinkActive="active" class="sidebar-item">
+            <div class="sidebar-item-content">
+              <i class="fa fa-home sidebar-icon"></i>
+              <span>Home</span>
+            </div>
+          </a>
+          <a
+            routerLink="./about"
+            routerLinkActive="active"
+            class="sidebar-item"
+          >
+            <div class="sidebar-item-content">
+              <i class="fa fa-sticky-note sidebar-icon"></i>
+              <span>About</span>
+            </div>
+          </a>
+          <a
+            routerLink="./contact"
+            routerLinkActive="active"
+            class="sidebar-item"
+          >
+            <div class="sidebar-item-content">
+              <i class="fa fa-phone sidebar-icon"></i>
+              <span>Contact</span>
+            </div>
+          </a>
+        </div>
+        <div class="sidebar-footer">sidebar footer</div>
+      </div>
+    </div>
+  </div>
+  <div class="col-auto container">
+    <router-outlet></router-outlet>
+  </div>
+</div>

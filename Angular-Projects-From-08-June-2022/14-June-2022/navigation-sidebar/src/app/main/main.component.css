@@ -1,0 +1,22 @@
+.sidebar {
+  height: 100vh;
+}
+
+.side-nav {
+  display: flex;
+  justify-content: center;
+  position: relative;
+}
+
+.sidebar-footer {
+  position: absolute;
+  bottom: 1rem;
+}
+
+.sidebar-item:hover,
+.active {
+  margin-left: 0 !important;
+  border-left: 15px solid rgb(255, 208, 0);
+  background-color: #fff;
+  color: #000;
+}
