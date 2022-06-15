@@ -1,0 +1,19 @@
+<div class="p-3 mb-2 bg-dark text-white">
+  <h2>Drag and Drop Board</h2>
+</div>
+<div class="container-fluid">
+  <div class="row" cdkDropListGroup>
+    <div
+      class="col-md-3"
+      cdkDropList
+      [cdkDropListData]="col.tasks"
+      (cdkDropListDropped)="drop($event)"
+      *ngFor="let col of board?.columns"
+    >
+      <h3 class="title">{{ col.name }}</h3>
+      <p class="form-control" cdkDrag *ngFor="let task of col.tasks">
+        {{ task }}
+      </p>
+    </div>
+  </div>
+</div>
