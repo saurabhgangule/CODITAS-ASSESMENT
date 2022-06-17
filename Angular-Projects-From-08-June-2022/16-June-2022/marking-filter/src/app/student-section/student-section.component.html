@@ -1,0 +1,10 @@
+<div class="row mb-2 pl-3 pr-3" *ngFor="let student of studentData">
+  <p class="col-md-4">{{ student.name }}</p>
+  <input
+    type="number"
+    name="marks"
+    (change)="updateStudentMarks($event, student)"
+    class="form-control col-md-6"
+    [value]="student.marks"
+  />
+</div>
