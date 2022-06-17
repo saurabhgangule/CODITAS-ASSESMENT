@@ -1,0 +1,13 @@
+.col-md-4 {
+  max-width: 100%;
+}
+
+.leave-buttons {
+  display: inline;
+  float: right;
+}
+
+.leave-buttons button {
+  cursor: pointer;
+  text-transform: uppercase;
+}

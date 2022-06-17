@@ -1,0 +1,12 @@
+<span class="form-control mt-3" *ngFor="let date of leaveData.dates"
+  >{{ date }}
+  <small *ngFor="let type of leavesTypes" class="leave-buttons">
+    <button
+      class="badge badge-dark p-2 ml-2"
+      *ngIf="type !== leaveData.type"
+      (click)="changePosition(leaveData.type, type, date)"
+    >
+      {{ type }}
+    </button>
+  </small>
+</span>
