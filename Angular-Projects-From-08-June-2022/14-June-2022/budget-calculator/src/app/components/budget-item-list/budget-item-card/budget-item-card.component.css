@@ -1,0 +1,19 @@
+div.form-control {
+  position: relative;
+  cursor: pointer;
+}
+
+.remove-budget-item {
+  display: none;
+}
+
+div.form-control:hover .remove-budget-item {
+  display: block;
+  position: absolute;
+  border: thin solid #ccc;
+  background-color: #ccc;
+  padding: 0.1rem 0.5rem;
+  border-radius: 50%;
+  right: -16px;
+  top: -16px;
+}

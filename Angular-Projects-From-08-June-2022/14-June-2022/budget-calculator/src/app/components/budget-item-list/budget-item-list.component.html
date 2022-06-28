@@ -1,0 +1,28 @@
+<section class="container">
+  <div class="row justify-content-md-center">
+    <div class="col col-md-5">
+      <h3 class="text-uppercase text-center text-success display-6">income</h3>
+      <div *ngFor="let item of budgetItems">
+        <app-budget-item-card
+          [item]="item"
+          [isIncome]="true"
+          *ngIf="item.amount >= 0"
+          (click)="onItemCardClick(item)"
+          (budgetItemDelete)="handleBudgetItemDelete(item)"
+        ></app-budget-item-card>
+      </div>
+    </div>
+    <div class="col col-md-5">
+      <h3 class="text-uppercase text-center text-danger display-6">expenses</h3>
+      <div *ngFor="let item of budgetItems">
+        <app-budget-item-card
+          [item]="item"
+          [isIncome]="false"
+          *ngIf="item.amount < 0"
+          (click)="onItemCardClick(item)"
+          (budgetItemDelete)="handleBudgetItemDelete(item)"
+        ></app-budget-item-card>
+      </div>
+    </div>
+  </div>
+</section>

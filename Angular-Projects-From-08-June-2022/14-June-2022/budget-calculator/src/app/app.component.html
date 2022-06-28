@@ -1,0 +1,32 @@
+<!-- header section -->
+<header>
+  <nav class="navbar navbar-dark bg-dark justify-content-center">
+    <p class="navbar-brand m-0 text-uppercase">{{ title }}</p>
+  </nav>
+</header>
+
+<!-- total budget display section -->
+<app-total-budget-display
+  [totalBudget]="totalBudget"
+></app-total-budget-display>
+
+<!-- budget item input section -->
+<app-budget-input-item
+  (itemForm)="itemFormHandler($event)"
+  [type]="'add'"
+></app-budget-input-item>
+
+<!-- budget item list section -->
+<app-budget-item-list
+  [budgetItems]="budgetItems"
+  (onItemCardClickEmit)="onItemCardClick($event)"
+  (onItemDeleteClickEmit)="onItemDelete($event)"
+></app-budget-item-list>
+
+<!-- budget item edit modal -->
+<app-budget-item-edit-modal
+  [openEditModal]="openEditModal"
+  [item]="currentItem"
+  (closeEditModal)="onCloseEditModal($event)"
+  (itemUpdate)="onItemUpdate($event)"
+></app-budget-item-edit-modal>

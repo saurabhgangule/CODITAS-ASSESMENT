@@ -1,0 +1,48 @@
+<section class="container">
+  <form #itemForm="ngForm" (ngSubmit)="formSubmitHandler(itemForm)">
+    <div class="row justify-content-md-center">
+      <div
+        class="col"
+        [ngClass]="{
+          'col-md-3': type === 'update',
+          'col-md-2': type === 'add'
+        }"
+      >
+        <input
+          type="number"
+          name="amount"
+          class="form-control"
+          [ngModel]="item.amount"
+          placeholder="amount"
+          required=""
+        />
+      </div>
+      <div class="col col-md-6">
+        <input
+          type="text"
+          name="description"
+          class="form-control"
+          [ngModel]="item.description"
+          placeholder="description"
+          required=""
+        />
+      </div>
+      <div
+        class="col"
+        [ngClass]="{
+          'col-md-3': type === 'update',
+          'col-md-2': type === 'add'
+        }"
+      >
+        <button
+          class="btn btn-dark btn-block"
+          type="submit"
+          [disabled]="!itemForm.valid"
+        >
+          {{ type | titlecase }}
+        </button>
+      </div>
+    </div>
+  </form>
+</section>
+<hr *ngIf="type === 'add'" />

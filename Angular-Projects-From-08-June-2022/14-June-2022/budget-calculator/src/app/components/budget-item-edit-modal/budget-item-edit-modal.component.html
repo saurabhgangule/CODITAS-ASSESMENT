@@ -1,0 +1,30 @@
+<div
+  class="modal fade"
+  tabindex="-1"
+  [style.display]="openEditModal ? 'block' : 'none'"
+  [ngClass]="{ show: openEditModal, backdrop: openEditModal }"
+>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Edit Budget</h5>
+        <button
+          type="button"
+          class="btn btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+          (click)="closeModal()"
+        >
+          <i class="fa fa-remove"></i>
+        </button>
+      </div>
+      <div class="modal-body mb-3">
+        <app-budget-input-item
+          (itemForm)="itemUpdateFormHandler($event)"
+          [type]="'update'"
+          [item]="item"
+        ></app-budget-input-item>
+      </div>
+    </div>
+  </div>
+</div>

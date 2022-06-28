@@ -1,0 +1,19 @@
+<div class="form-control bg-light mb-3">
+  <div
+    class="remove-budget-item"
+    (click)="onBudgetItemDelete($event.stopPropagation())"
+  >
+    <i class="fa fa-remove"></i>
+  </div>
+  <p
+    class="m-0 row"
+    [ngClass]="{ 'text-success': isIncome, 'text-danger': !isIncome }"
+  >
+    {{ item.description }}
+    <span
+      class="badge p-2 ml-auto"
+      [ngClass]="{ 'badge-success': isIncome, 'badge-danger': !isIncome }"
+      >{{ item.amount }}</span
+    >
+  </p>
+</div>
