@@ -1,23 +1,13 @@
 <div class="container-fluid">
   <div class="row">
-    <div class="col-md-4 pl-5 pr-5">
-      <h6 class="mt-3 mb-3 text-center ml-5">Greater than 70</h6>
+    <div class="col-md-4 pl-5 pr-5" *ngFor="let section of studentData">
+      <h6 class="mt-3 mb-3 text-center ml-5">
+        {{ section.section | uppercase }}
+      </h6>
       <app-student-section
-        [studentData]="studentDataMeritOne"
-        (detectChange)="detectChange($event)"
-      ></app-student-section>
-    </div>
-    <div class="col-md-4 pl-5 pr-5">
-      <h6 class="mt-3 mb-3 text-center ml-5">Less than 70 & Greater than 50</h6>
-      <app-student-section
-        [studentData]="studentDataMeritTwo"
-        (detectChange)="detectChange($event)"
-      ></app-student-section>
-    </div>
-    <div class="col-md-4 pl-5 pr-5">
-      <h6 class="mt-3 mb-3 text-center ml-5">Less than 50</h6>
-      <app-student-section
-        [studentData]="studentDataMeritThree"
+        *ngFor="let student of section.students"
+        [studentData]="student"
+        [id]="section.id"
         (detectChange)="detectChange($event)"
       ></app-student-section>
     </div>

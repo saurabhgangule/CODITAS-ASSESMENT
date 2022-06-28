@@ -1,5 +1,7 @@
+import { CurrencyPipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { Istudent } from '../models/student';
+import { IEData } from '../models/emit';
+import { IstudentStructure } from '../models/structure';
 import { DataService } from '../services/data.service';
 
 @Component({
@@ -9,29 +11,24 @@ import { DataService } from '../services/data.service';
 })
 export class MainComponent implements OnInit {
 
-  studentData!: Istudent[];
-  studentDataMeritOne!: Istudent[];
-  studentDataMeritTwo!: Istudent[];
-  studentDataMeritThree!: Istudent[];
+  studentData!: IstudentStructure[];
   name!: string;
-  marks!: number;
-
-  private filterData(min: number, max: number) {
-    return this.studentData.filter(student => student.marks >= min && student.marks < max);
-  }
 
   constructor(public dataSevice: DataService) {
   }
 
   async ngOnInit(): Promise<void> {
     this.studentData = await this.dataSevice.getStudentList();
-    this.studentDataMeritOne = this.filterData(70, 100);
-    this.studentDataMeritTwo = this.filterData(50, 70);
-    this.studentDataMeritThree = this.filterData(0, 50);
   }
 
-  detectChange(event: Istudent[]) {
-    this.studentData = event;
+  detectChange(data: IEData) {
+    this.studentData.forEach(each => {
+      if (each.id === data.fromId && each.id !== data.toId) {
+        each.students.splice(each.students.indexOf(data.currentStudent), 1);
+      }
+      if (each.id === data.toId && each.id !== data.fromId) {
+        each.students.push(data.newStudent);
+      }
+    })
   }
 }
-

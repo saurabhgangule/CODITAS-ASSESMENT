@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { IEData } from '../models/emit';
 import { Istudent } from '../models/student';
 
 @Component({
@@ -7,21 +8,23 @@ import { Istudent } from '../models/student';
   styleUrls: ['./student-section.component.css']
 })
 export class StudentSectionComponent implements OnInit {
-  @Input() studentData!: Istudent[]
+  @Input('studentData') currentStudent!: Istudent;
+  newStudent!: Istudent;
+  @Input('id') fromId!: number;
+  toId!: number;
   @Output() detectChange = new EventEmitter();
+  emitStructure!: IEData;
   constructor() { }
 
   ngOnInit(): void {
+    this.newStudent = this.currentStudent;
   }
 
-  updateStudentMarks(inputEvent: Event, currentStudent: Istudent) {
-    // console.log((input.currentTarget as HTMLInputElement).value, currentStudent)
-    this.studentData.forEach(student => {
-      if (currentStudent.name === student.name) {
-        student.marks = +(inputEvent.currentTarget as HTMLInputElement).value;
-        this.detectChange.emit(this.studentData);
-      }
-    })
+  updateStudentMarks(inputEvent: Event) {
+    this.newStudent.marks = +((inputEvent.target as HTMLInputElement).value);
+    this.toId = (this.newStudent.marks >= 70 && this.newStudent.marks <= 100) ? 1 : (this.newStudent.marks < 70 && this.newStudent.marks >= 50) ? 2 : 3;
+    this.emitStructure = { currentStudent: this.currentStudent, fromId: this.fromId, toId: this.toId, newStudent: this.newStudent }
+    this.detectChange.emit(this.emitStructure);
   }
 
 }

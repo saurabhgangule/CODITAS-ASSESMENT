@@ -13,10 +13,4 @@ export class DataService {
     return studentList;
 
   }
-
-  async getFilteredStudent(min: number = 0, max: number = 0) {
-    const studentList = await backendStudentList();
-    return studentList.filter(student => student.marks >= min && student.marks < max);
-  }
-
 }
