@@ -1,0 +1,15 @@
+<main class="container mt-3">
+  <div class="row">
+    <!-- rating component -->
+    <section class="col-md-2">
+      <!-- rating-input component -->
+      <app-rating-component
+        (ratingDataEmitter)="ratingDataHandler($event)"
+      ></app-rating-component>
+    </section>
+    <section class="col-md-10">
+      <!-- display rating section -->
+      <app-display-rating [ratingData]="ratingData"></app-display-rating>
+    </section>
+  </div>
+</main>

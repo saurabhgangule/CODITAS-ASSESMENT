@@ -1,0 +1,43 @@
+<table class="table table-bordered text-center">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">Ambience</th>
+      <th scope="col">Cleanliness</th>
+      <th scope="col">Service</th>
+      <th scope="col">Food</th>
+      <th scope="col">Total Avg</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let rating of ratingData">
+      <td>{{ rating.ambience || 0 }}</td>
+      <td>{{ rating.cleanliness || 0 }}</td>
+      <td>{{ rating.service || 0 }}</td>
+      <td>{{ rating.food || 0 }}</td>
+      <td>{{ rating.totalAvg || 0 }}</td>
+    </tr>
+  </tbody>
+</table>
+<div class="row align-items-center">
+  <div class="col-md-6 text-center">
+    <app-total-avg-display
+      [totalAvg]="getAverage('totalAvg')"
+    ></app-total-avg-display>
+  </div>
+  <div class="col-md-6">
+    <div class="mb-3">
+      <app-avg-progress-bar
+        [average]="getAverage('ambience')"
+      ></app-avg-progress-bar>
+      <app-avg-progress-bar
+        [average]="getAverage('cleanliness')"
+      ></app-avg-progress-bar>
+      <app-avg-progress-bar
+        [average]="getAverage('service')"
+      ></app-avg-progress-bar>
+      <app-avg-progress-bar
+        [average]="getAverage('food')"
+      ></app-avg-progress-bar>
+    </div>
+  </div>
+</div>

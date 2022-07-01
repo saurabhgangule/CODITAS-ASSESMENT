@@ -1,0 +1,16 @@
+<form [formGroup]="ratingForm" (ngSubmit)="ratingFormSubmitHandler(ratingForm)">
+  <app-input-card
+    [title]="'Ambience'"
+    formControlName="ambience"
+  ></app-input-card>
+  <app-input-card
+    [title]="'Cleanliness'"
+    formControlName="cleanliness"
+  ></app-input-card>
+  <app-input-card
+    [title]="'Service'"
+    formControlName="service"
+  ></app-input-card>
+  <app-input-card [title]="'Food'" formControlName="food"></app-input-card>
+  <button type="submit" class="btn btn-outline-dark btn-block">Save</button>
+</form>
