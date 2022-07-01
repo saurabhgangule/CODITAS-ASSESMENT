@@ -1,0 +1,28 @@
+<div>
+  <h2 class="display-5 text-center mb-3">
+    {{ getLevelData.levelName }} - Quiz
+  </h2>
+  <div class="row justify-content-center">
+    <div
+      class="col-md-4"
+      *ngFor="let videoId of getLevelData.levelDetails.videoEmbedIds; let i = index"
+    >
+      <app-level-videos
+        [videoId]="videoId"
+        [levelName]="getLevelData.levelName"
+        [topic]="i + 1"
+      ></app-level-videos>
+    </div>
+  </div>
+  <app-level-quiz
+    *ngFor="let quiz of getLevelData.levelDetails.quizQuestions"
+    [quiz]="quiz"
+    (levelCompleteFlagEmit)="
+      handleLevelCompleteFlagEmit(
+        $event,
+        getLevelData.levelId,
+        quiz
+      )
+    "
+  ></app-level-quiz>
+</div>

@@ -1,0 +1,21 @@
+<div>
+  <div class="row m-0 justify-content-center mb-3">
+    <div class="col col-md-6 form-control">
+      <p class="m-0">{{ levelData.levelName }}</p>
+    </div>
+    <div class="col col-md-auto disabled">
+      <button
+        class="btn btn-dark btn-block"
+        style="height: 100%"
+        (click)="onLevelSelect(levelData.levelId)"
+        [disabled]="!levelData.hasAccess"
+      >
+        <i class="fa fa-arrow-right"></i>
+      </button>
+    </div>
+    <div class="col col-md-auto">
+      <i class="fa fa-check text-success" *ngIf="levelData.isComplete"></i>
+      <i class="fa fa-circle text-danger" *ngIf="!levelData.isComplete"></i>
+    </div>
+  </div>
+</div>

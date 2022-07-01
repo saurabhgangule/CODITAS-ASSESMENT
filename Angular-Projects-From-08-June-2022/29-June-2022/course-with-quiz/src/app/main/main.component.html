@@ -1,0 +1,18 @@
+<main class="container">
+  <!-- Course Levels -->
+  <div *ngIf="!changeSection">
+    <h1 class="display-5 m-0 mb-3 mt-3 text-center">Demo Course</h1>
+    <app-course-levels
+      *ngFor="let level of levelsData"
+      [levelData]="level"
+      (emitLevelId)="handleNavigation($event)"
+    ></app-course-levels>
+  </div>
+
+  <!-- Each Level interface -->
+  <app-course-level-details
+    *ngIf="changeSection"
+    [levelDetails]="levelDetails"
+    (sendhandleLevelCompleteFlagEmit)="handleLevelId($event)"
+  ></app-course-level-details>
+</main>

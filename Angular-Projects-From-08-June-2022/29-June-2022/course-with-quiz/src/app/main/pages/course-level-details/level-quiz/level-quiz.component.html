@@ -1,0 +1,23 @@
+<div class="mb-4">
+  <h4 class="form-control">{{ quiz.quiz }}</h4>
+  <div class="btn-group btn-group-toggle" data-toggle="buttons">
+    <button
+      class="btn"
+      *ngFor="let option of quiz.options; let i = index"
+      (click)="onChecked(quiz.answer, option)"
+      [ngClass]="{
+        active: option === currentOption,
+        'btn-success': currentFlag,
+        'btn-danger': !currentFlag,
+        'btn-light': option !== currentOption
+      }"
+      [disabled]="currentFlag"
+    >
+      <input type="radio" name="options" [value]="option" />
+      {{ "(" + (i + 1) + ")   " + option }}
+    </button>
+  </div>
+  <p class="text-danger" *ngIf="!showMessage">
+    answer is incorrect. try again!
+  </p>
+</div>
