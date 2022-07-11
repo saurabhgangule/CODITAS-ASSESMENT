@@ -1,0 +1,13 @@
+<main class="container-fluid mt-3">
+  <div class="row align-items-center">
+    <section class="col col-md-4">
+      <app-register></app-register>
+    </section>
+    <section class="col col-md-4">
+      <app-login (isUserLoggedInEmit)="handleUserLoggedIn(true)"></app-login>
+    </section>
+    <section class="col col-md-auto">
+      <app-dashboard [isUserLoggedIn]="isUserLoggedIn" [currentUser]="currentUser"></app-dashboard>
+    </section>
+  </div>
+</main>

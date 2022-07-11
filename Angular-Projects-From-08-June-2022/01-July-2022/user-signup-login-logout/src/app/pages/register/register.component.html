@@ -1,0 +1,42 @@
+<div class="card text-center">
+  <div class="card-header">Register</div>
+  <div class="card-body">
+    <div
+      class="alert"
+      *ngIf="showAlert"
+      [ngClass]="{
+        'alert-success': !alertMessage.isError,
+        'alert-danger': alertMessage.isError
+      }"
+    >
+      {{ alertMessage.message }}
+    </div>
+    <form [formGroup]="registerForm" (ngSubmit)="handleRegister()">
+      <input
+        type="text"
+        placeholder="name"
+        formControlName="name"
+        class="form-control mb-2"
+      />
+      <input
+        type="email"
+        placeholder="email"
+        formControlName="email"
+        class="form-control mb-2"
+      />
+      <input
+        type="password"
+        placeholder="password"
+        formControlName="password"
+        class="form-control mb-2"
+      />
+      <button
+        class="btn btn-outline-dark btn-block"
+        type="submit"
+        [disabled]="registerForm.invalid"
+      >
+        Sign up
+      </button>
+    </form>
+  </div>
+</div>

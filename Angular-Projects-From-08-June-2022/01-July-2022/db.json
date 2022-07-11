@@ -1,0 +1,46 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "saurabh g",
+      "email": "saurabh@gmail.com",
+      "password": "saurabh"
+    },
+    {
+      "name": "nana",
+      "email": "nana@gmail.com",
+      "password": "1234",
+      "id": 2
+    },
+    {
+      "name": "anil",
+      "email": "anil@gmail",
+      "password": "123123",
+      "id": 3
+    },
+    {
+      "name": "mahesh",
+      "email": "mahesh@gmail.com",
+      "password": "123123",
+      "id": 4
+    },
+    {
+      "name": "hjbk",
+      "email": "bhbhjbj",
+      "password": "hjbjb",
+      "id": 5
+    },
+    {
+      "name": "adlknaksnd",
+      "email": "asasdnas",
+      "password": "lksnas",
+      "id": 6
+    },
+    {
+      "name": "saurabh",
+      "email": "asdasdas",
+      "password": "asdasds",
+      "id": 7
+    }
+  ]
+}
