@@ -1,0 +1,54 @@
+<main class="">
+  <div class="container-fluid">
+    <div class="row vh-100">
+      <div
+        class="col-md-8 text-center py-5 d-flex flex-column justify-content-center auth-bg-section text-white"
+        style="
+          background-image: url(../../assets/images/pokemon-bg.jpg);
+          background-position: center;
+          background-size: cover;
+        "
+      >
+        <!-- <h1 class="text-reset">Welcome</h1> -->
+      </div>
+      <div
+        class="col-md-4 text-center d-flex flex-column py-5 justify-content-center"
+      >
+        <div class="auth-form-section">
+          <h2>Log in</h2>
+          <p>login to access the pokemon game</p>
+          <form
+            class="container"
+            [formGroup]="loginForm"
+            (ngSubmit)="handleLogin()"
+          >
+            <div class="row">
+              <div class="col-md-12">
+                <app-input type="email" formControlName="email">
+                  <span
+                    *ngIf="email.hasError('email')"
+                    class="text-danger"
+                    >Enter valid email...</span
+                  >
+                </app-input>
+              </div>
+              <div class="col-md-12">
+                <app-input type="password" formControlName="password">
+                  <span
+                    *ngIf="password.hasError('minlength')"
+                    class="text-danger"
+                  >
+                    Enter valid pasword...
+                  </span></app-input
+                >
+              </div>
+              <div class="col-md-12 mt-3">
+                <app-button [buttonType]="'submit'" [makeDisable]="loginForm.invalid" [showLoader]="showLoader"> Sign in </app-button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>

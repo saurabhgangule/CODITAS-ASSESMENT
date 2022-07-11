@@ -1,0 +1,16 @@
+@import 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css';
+@import 'https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.css';
+
+button:focus, 
+button:hover, 
+button:active {
+    outline: none;
+}
+
+input:hover,
+input:active {
+    outline: none;
+}
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

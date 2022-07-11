@@ -1,0 +1,13 @@
+<mat-form-field appearance="outline">
+  <mat-label>{{ type | titlecase }}</mat-label>
+  <input
+    matInput
+    [type]="type"
+    class="mb-0"
+    [ngModel]="value"
+    (ngModelChange)="value = $event; onChange($event)"
+  />
+  <mat-hint>
+    <ng-content></ng-content>
+  </mat-hint>
+</mat-form-field>

@@ -1,0 +1,26 @@
+<h1 mat-dialog-title>{{ data.action }}</h1>
+<div mat-dialog-content>
+  <p>{{ data.action }} your pokemon</p>
+  <app-input [type]="'name'" [(ngModel)]="data.name"></app-input>
+  <app-input [type]="'level'" [(ngModel)]="data.level"></app-input>
+  <mat-form-field appearance="outline">
+    <mat-label>Choose Pokemon Type</mat-label>
+    <mat-select [(ngModel)]="data.type" [(value)]="data.type">
+      <mat-option *ngFor="let type of pokemonTypes" [value]="type.id">{{
+        type.name
+      }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <!-- <app-select
+    [label]="'Choose Pokemon Type'"
+    [(ngModel)]="data.type"
+    [data]="pokemonTypes"
+    [currentValue]="data.type"
+  ></app-select> -->
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Close</button>
+  <button mat-button [mat-dialog-close]="data" cdkFocusInitial color="primary">
+    {{ data.action }}
+  </button>
+</div>

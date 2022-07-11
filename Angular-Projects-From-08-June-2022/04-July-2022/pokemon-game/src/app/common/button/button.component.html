@@ -1,0 +1,11 @@
+<mat-progress-bar mode="indeterminate" *ngIf="showLoader"></mat-progress-bar>
+<button
+  [type]="buttonType"
+  class="btn btn-success btn-block mb-3"
+  mat-raised-button
+  color="primary"
+  [disabled]="makeDisable || showLoader"
+  appChangeOnHover
+>
+  <ng-content></ng-content>
+</button>
