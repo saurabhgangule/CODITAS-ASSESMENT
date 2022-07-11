@@ -1,10 +1,6 @@
 <mat-form-field appearance="outline">
   <mat-label>{{ label }}</mat-label>
-  <mat-select
-    [ngModel]="value"
-    [value]="value"
-    (ngModelChange)="onChange($event)"
-  >
+  <mat-select [ngModel]="value" (ngModelChange)="onChange($event)">
     <mat-option *ngFor="let type of data" [value]="type.id">{{
       type.name
     }}</mat-option>

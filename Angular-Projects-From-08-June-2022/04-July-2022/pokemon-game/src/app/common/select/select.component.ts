@@ -1,11 +1,15 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
   selector: 'app-select',
   templateUrl: './select.component.html',
-  styleUrls: ['./select.component.scss']
+  styleUrls: ['./select.component.scss'],
+  providers: [
+    { provide: NG_VALUE_ACCESSOR, useExisting: SelectComponent, multi: true }
+  ]
 })
-export class SelectComponent implements OnInit {
+export class SelectComponent implements OnInit, ControlValueAccessor {
 
   @Input() label!: string;
   @Input() data!: any;
