@@ -1,0 +1,178 @@
+<ng-container
+  *ngIf="
+    data.title === 'doctor' && (data.action === 'add' || data.action === 'edit')
+  "
+>
+  <h1 mat-dialog-title>{{ data.action + " " + data.title }}</h1>
+  <div mat-dialog-content>
+    <div class="row">
+      <div class="col-md-12">
+        <app-input type="name" [(ngModel)]="data.name"> </app-input>
+      </div>
+      <div class="col-md-12">
+        <app-input type="email" [(ngModel)]="data.email"> </app-input>
+      </div>
+      <div class="col-md-12">
+        <app-input type="speciality" [(ngModel)]="data.speciality"> </app-input>
+      </div>
+      <div class="col-md-12">
+        <app-select
+          label="Select Available Nurses"
+          [data]="data.nurses"
+          [(ngModel)]="data.newNurses"
+          [currentValue]="data.nurses || []"
+          [multi]="true"
+        ></app-select>
+      </div>
+    </div>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-button mat-dialog-close>Cancel</button>
+    <button mat-button [mat-dialog-close]="data" cdkFocusInitial>
+      {{ data.action }}
+    </button>
+  </div>
+</ng-container>
+
+<ng-container
+  *ngIf="
+    data.title === 'nurse' && (data.action === 'add' || data.action === 'edit')
+  "
+>
+  <h1 mat-dialog-title>{{ data.action + " " + data.title }}</h1>
+  <div mat-dialog-content>
+    <div class="row">
+      <div class="col-md-12">
+        <app-input type="name" [(ngModel)]="data.name"> </app-input>
+      </div>
+      <div class="col-md-12">
+        <app-input type="email" [(ngModel)]="data.email"> </app-input>
+      </div>
+      <div class="col-md-12">
+        <app-select
+          label="Select Doctor"
+          [data]="data.docsList"
+          [(ngModel)]="data.assignedDoctor"
+          [currentValue]="data.assignedDoctor || ''"
+        ></app-select>
+      </div>
+    </div>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-button mat-dialog-close>cancel</button>
+    <button mat-button [mat-dialog-close]="data" cdkFocusInitial>
+      {{ data.action }}
+    </button>
+  </div>
+</ng-container>
+
+<ng-container
+  *ngIf="data.title === 'from nurse' && data.action === 'change request'"
+>
+  <h1 mat-dialog-title>{{ data.action + " " + data.title }}</h1>
+  <div mat-dialog-content>
+    <div class="row">
+      <div class="col-md-12">
+        <app-select
+          label="For Doctor"
+          [data]="data.assignedDocsList"
+          [(ngModel)]="data.for"
+          [currentValue]="data.for || ''"
+          [disabled]="true"
+        ></app-select>
+      </div>
+      <div class="col-md-12">
+        <app-select
+          label="Replace With"
+          [data]="data.docsList"
+          [(ngModel)]="data.replacement"
+          [currentValue]="data.replacement || ''"
+        ></app-select>
+      </div>
+      <div class="col-md-12">
+        <app-input type="reason" [(ngModel)]="data.reason"> </app-input>
+      </div>
+    </div>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-button mat-dialog-close>cancel</button>
+    <button mat-button [mat-dialog-close]="data" cdkFocusInitial>
+      {{ data.action }}
+    </button>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="data.title === 'from nurse' && data.action === 'message'">
+  <h1 mat-dialog-title>{{ data.action + " " + data.title }}</h1>
+  <div mat-dialog-content>
+    <div class="row">
+      <div class="col-md-12">
+        <app-select
+          label="For Doctor"
+          [data]="data.assignedDocsList"
+          [(ngModel)]="data.to"
+          [currentValue]="data.to || ''"
+          [disabled]="true"
+        ></app-select>
+      </div>
+      <div class="col-md-12">
+        <app-input type="message" [(ngModel)]="data.message"> </app-input>
+      </div>
+    </div>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-button mat-dialog-close>cancel</button>
+    <button mat-button [mat-dialog-close]="data" cdkFocusInitial>
+      {{ data.action }}
+    </button>
+  </div>
+</ng-container>
+
+<ng-container
+  *ngIf="data.title === 'from doctor' && data.action === 'change request'"
+>
+  <h1 mat-dialog-title>{{ data.action + " " + data.title }}</h1>
+  <div mat-dialog-content>
+    <div class="row">
+      <div class="col-md-12">
+        <app-select
+          label="Current Nurse"
+          [data]="data.nurses"
+          [(ngModel)]="data.for"
+          [currentValue]="data.for || ''"
+          [disabled]="true"
+        ></app-select>
+      </div>
+      <div class="col-md-12">
+        <app-select
+          label="Replace With"
+          [data]="data.newNurses"
+          [(ngModel)]="data.replacement"
+          [currentValue]="data.replacement || ''"
+        ></app-select>
+      </div>
+      <div class="col-md-12">
+        <app-input type="reason" [(ngModel)]="data.reason"> </app-input>
+      </div>
+    </div>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-button mat-dialog-close>cancel</button>
+    <button mat-button [mat-dialog-close]="data" cdkFocusInitial>
+      {{ data.action }}
+    </button>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="data.action === 'delete'">
+  <h1 mat-dialog-title>Delete User</h1>
+  <div mat-dialog-content>
+    you really want to delete user "{{ data.name }}" ?
+  </div>
+  <div mat-dialog-actions>
+    <button mat-button mat-dialog-close>cancel</button>
+    <button mat-button [mat-dialog-close]="data" cdkFocusInitial>
+      {{ data.title }}
+    </button>
+  </div>
+</ng-container>

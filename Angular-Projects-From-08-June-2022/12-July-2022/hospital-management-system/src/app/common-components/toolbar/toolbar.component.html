@@ -1,0 +1,20 @@
+<mat-toolbar color="primary">
+  <button mat-icon-button aria-label="menu icon" (click)="toggleMatDrawer()">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <span>{{ title + " Panel" }}</span>
+  <span class="toolbar-spacer"></span>
+  <button
+    mat-icon-button
+    aria-label="menu options icon"
+    [matMenuTriggerFor]="menu"
+  >
+    <mat-icon>more_vert</mat-icon>
+  </button>
+</mat-toolbar>
+<mat-menu #menu="matMenu">
+  <button mat-menu-item (click)="handleLogout()">
+    <mat-icon>logout</mat-icon>
+    <span>Logout</span>
+  </button>
+</mat-menu>

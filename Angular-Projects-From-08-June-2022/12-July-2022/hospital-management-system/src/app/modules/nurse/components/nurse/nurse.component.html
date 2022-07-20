@@ -1,0 +1,24 @@
+<app-toolbar [title]="dashTitle"></app-toolbar>
+<app-sidebar [menuData]="nurseMenuData">
+  <div class="container mt-3">
+    <div class="row align-items-center">
+      <div class="col-md-6">
+        <h1 class="m-0">{{ pageInfo.title }}</h1>
+      </div>
+      <ng-container *ngIf="pageInfo.config?.isAction">
+        <div class="col-md-6 text-right">
+          <button
+            mat-raised-button
+            color="accent"
+            *ngFor="let action of pageInfo.config?.actions"
+            [matTooltip]="action.title"
+          >
+            <mat-icon>{{ action.icon }}</mat-icon>
+            {{ action.title }}
+          </button>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+  <ng-content></ng-content>
+</app-sidebar>
