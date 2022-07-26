@@ -18,13 +18,16 @@ export class AllHttpInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     let status: string;
-    const newRequest = request.clone({
+    let newRequest = request.clone({
       url: `${environment.apiBaseUrl}/${request.url}`,
       body: request.body ? JSON.stringify(request.body) : null,
       setHeaders: {
         'Content-Type': 'application/json',
+        Authorization: localStorage.getItem('_token') || 'null',
       }
-    })
+    });
+
+
     return next.handle(newRequest).pipe(
       tap({
         next: (event) => {

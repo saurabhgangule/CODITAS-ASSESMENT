@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import { demoTableData, IPageInfo, ITableColsData } from 'src/app/models/models';
+import { IPageInfo, ITableColsData } from 'src/app/models/models';
 import { CommonHttpService } from 'src/app/modules/common-services/common-http.service';
 import { ToggleMatDrawerService } from 'src/app/shared-services/toggle-mat-drawer.service';
 
@@ -14,13 +14,15 @@ export class AllRequestsComponent implements OnInit {
     title: 'All Requests',
   };
 
+  public dataSource!: MatTableDataSource<ITableColsData>;
+
   public colsData: ITableColsData[] = [
     {
       key: 'for',
       display: 'For',
       config: {
         isSpecial: true,
-        handleSpecial: (user: any) => {
+        handleSpecial: (user: { name: string }[]) => {
           return user[0].name;
         }
       }
@@ -30,7 +32,7 @@ export class AllRequestsComponent implements OnInit {
       display: 'From',
       config: {
         isSpecial: true,
-        handleSpecial: (user: any) => {
+        handleSpecial: () => {
           // return user[0].name;
           return "You"
         }
@@ -41,7 +43,7 @@ export class AllRequestsComponent implements OnInit {
       display: 'Replacement',
       config: {
         isSpecial: true,
-        handleSpecial: (user: any) => {
+        handleSpecial: (user: { name: string }[]) => {
           return user[0].name;
         }
       }
@@ -57,8 +59,7 @@ export class AllRequestsComponent implements OnInit {
             icon: 'notifications_active',
             title: 'Reminder',
             color: 'primary',
-            handleAction: (request: any) => {
-              console.log(request);
+            handleAction: (request: { _id: string }) => {
               this.sendReminder(request._id);
               return true;
             }
@@ -69,19 +70,19 @@ export class AllRequestsComponent implements OnInit {
     }
   ];
 
-  public tableDataSource: unknown[] = [];
-
-
-  dataSource!: MatTableDataSource<unknown>;
-
-  constructor(private commonHttpService: CommonHttpService, private paginatorSerevice: ToggleMatDrawerService) { }
+  constructor(
+    private commonHttpService: CommonHttpService,
+    private paginatorSerevice: ToggleMatDrawerService
+  ) { }
 
   private loadAllRequests() {
-    const loadRequest = this.commonHttpService.getChangeRequests(localStorage.getItem('_token') ?? '');
+    const loadRequest = this.commonHttpService.getChangeRequests();
     if (loadRequest) {
       loadRequest.subscribe({
         next: (response) => {
-          const data = Object(response).data.filter((user: { for: []; from: []; }) => user.for.length && user.from.length);
+          const data = Object(response).data.filter(
+            (user: { for: []; from: []; }) => user.for.length && user.from.length
+          );
           this.dataSource = new MatTableDataSource(data);
           this.dataSource.paginator = this.paginatorSerevice.getPaginator();
         }
@@ -90,7 +91,7 @@ export class AllRequestsComponent implements OnInit {
   }
 
   private sendReminder(_id: string) {
-    const loadRequest = this.commonHttpService.createReminder(_id, localStorage.getItem('_token') ?? '');
+    const loadRequest = this.commonHttpService.createReminder(_id);
     if (loadRequest) {
       loadRequest.subscribe({
         next: (response) => {

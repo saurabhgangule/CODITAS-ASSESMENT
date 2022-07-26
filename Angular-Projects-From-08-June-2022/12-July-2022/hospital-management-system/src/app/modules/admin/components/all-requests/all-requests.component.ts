@@ -1,7 +1,6 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
+import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import { demoTableData, IPageInfo, ITableColsData } from 'src/app/models/models';
+import { IPageInfo, ITableColsData } from 'src/app/models/models';
 import { ToggleMatDrawerService } from 'src/app/shared-services/toggle-mat-drawer.service';
 import { environment } from 'src/environments/environment';
 import { AdminHttpService } from '../../services/admin-http.service';
@@ -82,33 +81,39 @@ export class AllRequestsComponent implements OnInit {
     }
   ];
 
-  dataSource!: MatTableDataSource<unknown>;
+  dataSource!: MatTableDataSource<ITableColsData>;
   constructor(private adminHttpService: AdminHttpService, private paginatorSerevice: ToggleMatDrawerService) { }
+
+  ngOnInit(): void {
+    this.loadAllRequests();
+  }
 
   private loadAllRequests() {
     const loadAllRequest = this.adminHttpService.getChangeRequests();
-    loadAllRequest.subscribe({
-      next: (response) => {
-        const data = Object(response).data.filter((user: { for: []; from: []; }) => user.for.length && user.from.length);
-        this.dataSource = new MatTableDataSource(data);
-        this.dataSource.paginator = this.paginatorSerevice.getPaginator();
-      }
-    })
+    if (loadAllRequest) {
+      loadAllRequest.subscribe({
+        next: (response) => {
+          const data = Object(response).data.filter(
+            (user: { for: []; from: []; }) => user.for.length && user.from.length
+          );
+          this.dataSource = new MatTableDataSource(data);
+          this.dataSource.paginator = this.paginatorSerevice.getPaginator();
+        }
+      });
+    }
   }
 
   private updateChangeRequest(_id: string, toStatus: string) {
     const data = { status: toStatus };
     const updateChangeRequest = this.adminHttpService.updateChangeRequest(_id, data);
-    updateChangeRequest.subscribe({
-      next: (response) => {
-        this.loadAllRequests();
-        console.log(response);
-      }
-    })
-  }
-
-  ngOnInit(): void {
-    this.loadAllRequests();
+    if (updateChangeRequest) {
+      updateChangeRequest.subscribe({
+        next: (response) => {
+          this.loadAllRequests();
+          console.log(response);
+        }
+      });
+    }
   }
 
 }

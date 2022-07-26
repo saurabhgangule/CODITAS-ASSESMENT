@@ -15,7 +15,7 @@ const routes: Routes = [
     loadChildren: () => import('./modules/admin/admin.module').then(module => module.AdminModule),
     canLoad: [AuthGuard],
     data: {
-      role: environment.roles[0]._id
+      role: environment.admin._id
     }
   },
   {
@@ -23,7 +23,7 @@ const routes: Routes = [
     loadChildren: () => import('./modules/doctor/doctor.module').then(module => module.DoctorModule),
     canLoad: [AuthGuard],
     data: {
-      role: environment.roles[1]._id
+      role: environment.doctor._id
     }
   },
   {
@@ -31,7 +31,7 @@ const routes: Routes = [
     loadChildren: () => import('./modules/nurse/nurse.module').then(module => module.NurseModule),
     canLoad: [AuthGuard],
     data: {
-      role: environment.roles[2]._id
+      role: environment.nurse._id
     }
   }
 ];

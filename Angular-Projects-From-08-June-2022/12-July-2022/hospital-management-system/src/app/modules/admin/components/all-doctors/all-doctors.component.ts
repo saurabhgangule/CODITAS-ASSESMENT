@@ -15,6 +15,12 @@ import { AdminHttpService } from '../../services/admin-http.service';
 })
 export class AllDoctorsComponent implements OnInit {
 
+  private dialogData!: IPageData;
+  private loadAvailableNurses!: [];
+  private _id!: string;
+  public dataSource!: MatTableDataSource<ITableColsData>;
+
+
   public pageInfo: IPageInfo = {
     title: 'All Doctors',
     config: {
@@ -23,9 +29,9 @@ export class AllDoctorsComponent implements OnInit {
         {
           title: 'Add Doctor',
           icon: 'add',
-          handleAction: (x: any) => {
+          handleAction: () => {
             this.loadInitData();
-            this.dialogData.role = environment.roles[1]._id;
+            this.dialogData.role = environment.doctor._id;
             this.dialogData.nurses = this.loadAvailableNurses;
             this.openDialog();
             return true;
@@ -34,10 +40,6 @@ export class AllDoctorsComponent implements OnInit {
       ]
     }
   };
-
-  public dialogData!: IPageData;
-  public loadAvailableNurses!: [];
-  private _id!: string;
 
   loadInitData() {
     this.dialogData = {
@@ -65,14 +67,14 @@ export class AllDoctorsComponent implements OnInit {
             icon: 'edit',
             title: 'Edit',
             color: 'primary',
-            handleAction: (x: any) => {
+            handleAction: (doctor: IPageData) => {
               this.loadInitData();
               this.dialogData.action = 'edit';
-              this.dialogData.name = x.name;
-              this.dialogData.email = x.email;
-              this.dialogData.speciality = x.speciality;
-              this.dialogData.role = x.role;
-              this._id = x._id;
+              this.dialogData.name = doctor.name;
+              this.dialogData.email = doctor.email;
+              this.dialogData.speciality = doctor.speciality;
+              this.dialogData.role = doctor.role;
+              this._id = doctor._id ?? '';
               this.dialogData.nurses = this.loadAvailableNurses;
               this.openDialog();
               return true;
@@ -82,12 +84,12 @@ export class AllDoctorsComponent implements OnInit {
             icon: 'delete',
             title: 'Delete',
             color: 'warn',
-            handleAction: (doctor: any) => {
+            handleAction: (doctor: IPageData) => {
               this.loadInitData();
               this.dialogData.action = 'delete';
               this.dialogData.title = 'confirm';
               this.dialogData.name = doctor.name;
-              this._id = doctor._id;
+              this._id = doctor._id ?? '';
               this.openDialog();
               return true;
             }
@@ -98,24 +100,36 @@ export class AllDoctorsComponent implements OnInit {
     }
   ];
 
-  dataSource!: MatTableDataSource<unknown>;
-
-  constructor(private commonHttpService: CommonHttpService, private paginatorService: ToggleMatDrawerService, private dialog: MatDialog, private adminHttpService: AdminHttpService) { }
+  constructor(
+    private commonHttpService: CommonHttpService,
+    private paginatorService: ToggleMatDrawerService,
+    private dialog: MatDialog,
+    private adminHttpService: AdminHttpService
+  ) { }
 
   private loadAllDocs() {
-    const loadRequest = this.commonHttpService.getAllUsers();
+    const loadRequest = this.commonHttpService.getUsersBasedOnRole(environment.doctor._id);
     if (loadRequest) {
       loadRequest.subscribe({
         next: (response) => {
-          const allNurses = Object(response).data.filter((user: {
-            assignedDoctor: never[]; role: string;
-          }) => user.role === environment.roles[2]._id && user.assignedDoctor.length === 0);
-          const allDocs = Object(response).data.filter((user: { role: string; }) => user.role === environment.roles[1]._id);
-          this.loadAvailableNurses = allNurses;
-          this.dataSource = new MatTableDataSource(allDocs);
+          this.dataSource = new MatTableDataSource(Object(response).data);
           this.dataSource.paginator = this.paginatorService.getPaginator();
         }
       });
+    }
+    this.getAvailableNurses()
+  }
+
+  private getAvailableNurses() {
+    const loadRequest = this.commonHttpService.getUsersBasedOnRole(environment.nurse._id);
+    if (loadRequest) {
+      loadRequest.subscribe({
+        next: (response) => {
+          this.loadAvailableNurses = Object(response).data.filter(
+            (nurse: { assignedDoctor: string[]; }) => nurse.assignedDoctor.length === 0
+          );
+        }
+      })
     }
   }
 
@@ -132,8 +146,16 @@ export class AllDoctorsComponent implements OnInit {
 
     dialoagRef.afterClosed().subscribe(result => {
       if (result) {
-        const data = { name: result.name, email: result.email, role: result.role, speciality: result.speciality, nurses: result.newNurses };
-        console.log(data);
+        const data = {
+          name: result.name,
+          email: result.email,
+          role: result.role,
+          speciality: result.speciality,
+          nurses: result.newNurses
+        };
+
+        console.log(data)
+
         if (result.action === 'add') {
           this.adminHttpService.createDoctor(data).subscribe({
             next: (response) => {

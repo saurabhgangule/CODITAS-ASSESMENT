@@ -14,6 +14,12 @@ import { AdminHttpService } from '../../services/admin-http.service';
   styleUrls: ['./all-nurses.component.scss']
 })
 export class AllNursesComponent implements OnInit {
+
+  private dialogData!: IPageData;
+  public dataSource!: MatTableDataSource<ITableColsData>;
+  private loadDocsList!: [];
+  private _id!: string;
+
   public pageInfo: IPageInfo = {
     title: 'All Nurses',
     config: {
@@ -24,7 +30,7 @@ export class AllNursesComponent implements OnInit {
           icon: 'add',
           handleAction: () => {
             this.loadInitData();
-            this.dialogData.role = environment.roles[2]._id;
+            this.dialogData.role = environment.nurse._id;
             this.dialogData.docsList = this.loadDocsList;
             this.openDialog();
             return true;
@@ -33,10 +39,6 @@ export class AllNursesComponent implements OnInit {
       ]
     }
   };
-
-  public dialogData!: IPageData;
-  public loadDocsList!: [];
-  private _id!: string;
 
   loadInitData() {
     this.dialogData = {
@@ -57,8 +59,8 @@ export class AllNursesComponent implements OnInit {
       display: 'Assigned Doctor',
       config: {
         isSpecial: true,
-        handleSpecial: (x) => {
-          return x[0]?.name || '[Null]';
+        handleSpecial: (doctor: IPageData[]) => {
+          return doctor[0]?.name || 'Doctor not assigned';
         },
       }
     },
@@ -72,15 +74,15 @@ export class AllNursesComponent implements OnInit {
             icon: 'edit',
             title: 'Edit',
             color: 'primary',
-            handleAction: (nurse: any) => {
+            handleAction: (nurse: IPageData) => {
               this.loadInitData();
               this.dialogData.action = 'edit';
               this.dialogData.name = nurse.name;
               this.dialogData.email = nurse.email;
-              this.dialogData.assignedDoctor = nurse.assignedDoctor[0]?._id || '';
+              this.dialogData.assignedDoctor = Object(nurse.assignedDoctor?.[0])._id || '';
               this.dialogData.docsList = this.loadDocsList;
               this.dialogData.role = nurse.role;
-              this._id = nurse._id;
+              this._id = nurse._id || '';
               this.openDialog();
               return true;
             }
@@ -104,26 +106,40 @@ export class AllNursesComponent implements OnInit {
 
     }
   ];
+  constructor(
+    private commonHttpService: CommonHttpService,
+    private paginatorService: ToggleMatDrawerService,
+    private dialog: MatDialog,
+    private adminHttpService: AdminHttpService
+  ) { }
 
-  dataSource!: MatTableDataSource<unknown>;
-  constructor(private commonHttpService: CommonHttpService, private paginatorService: ToggleMatDrawerService, private dialog: MatDialog, private adminHttpService: AdminHttpService) { }
+  private getAllNurses() {
+    const loadRequest = this.commonHttpService.getUsersBasedOnRole(environment.nurse._id);
+    if (loadRequest) {
+      loadRequest.subscribe({
+        next: (response) => {
+          this.dataSource = new MatTableDataSource(Object(response).data);
+          this.dataSource.paginator = this.paginatorService.getPaginator();
+        }
+      });
+    }
+    this.getAllDocs();
+  }
 
-  private loadAllNurses() {
-    const loadRequest = this.commonHttpService.getAllUsers();
-    loadRequest.subscribe({
-      next: (response) => {
-        const allNurses = Object(response).data.filter((user: { role: string; }) => user.role === environment.roles[2]._id);
-        const allDocs = Object(response).data.filter((user: { role: string; }) => user.role === environment.roles[1]._id);
-        this.loadDocsList = allDocs;
-        this.dataSource = new MatTableDataSource(allNurses);
-        this.dataSource.paginator = this.paginatorService.getPaginator();
-      }
-    });
+  private getAllDocs() {
+    const loadRequest = this.commonHttpService.getUsersBasedOnRole(environment.doctor._id);
+    if (loadRequest) {
+      loadRequest.subscribe({
+        next: (response) => {
+          this.loadDocsList = Object(response).data;
+        }
+      })
+    }
   }
 
   ngOnInit(): void {
     this.loadInitData();
-    this.loadAllNurses();
+    this.getAllNurses();
   }
 
   openDialog() {
@@ -134,13 +150,18 @@ export class AllNursesComponent implements OnInit {
 
     dialoagRef.afterClosed().subscribe(result => {
       if (result) {
-        const data = { name: result.name, email: result.email, role: result.role, assignedDoctor: result.assignedDoctor ? result.assignedDoctor : null };
+        const data = {
+          name: result.name,
+          email: result.email,
+          role: result.role,
+          assignedDoctor: result.assignedDoctor ? result.assignedDoctor : null
+        };
 
         if (result.action === 'add') {
           this.adminHttpService.createNurse(data).subscribe({
             next: (response) => {
               this.dataSource;
-              this.loadAllNurses();
+              this.getAllNurses();
               console.log(response);
             }
           })
@@ -149,7 +170,7 @@ export class AllNursesComponent implements OnInit {
         if (result.action === 'edit') {
           this.adminHttpService.editNurse(data, this._id).subscribe({
             next: (response) => {
-              this.loadAllNurses();
+              this.getAllNurses();
               console.log(response);
             }
           })
@@ -158,7 +179,7 @@ export class AllNursesComponent implements OnInit {
         if (result.action === 'delete') {
           this.adminHttpService.deleteUser(this._id).subscribe({
             next: (response) => {
-              this.loadAllNurses();
+              this.getAllNurses();
               console.log(response);
             }
           })

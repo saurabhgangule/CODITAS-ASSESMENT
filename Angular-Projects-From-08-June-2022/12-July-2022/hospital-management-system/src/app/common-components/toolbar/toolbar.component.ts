@@ -10,14 +10,13 @@ import { ToggleMatDrawerService } from 'src/app/shared-services/toggle-mat-drawe
 })
 export class ToolbarComponent implements OnInit {
   @Input() title: string = 'The';
+  @Input() user!: { name: string; email: string };
 
   constructor(
     private toggleMatDrawerSercice: ToggleMatDrawerService,
     private authService: AuthService,
     private router: Router) { }
-
-  ngOnInit(): void {
-  }
+  ngOnInit(): void { }
 
   toggleMatDrawer() {
     this.toggleMatDrawerSercice.toggle();

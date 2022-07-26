@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
@@ -17,8 +18,10 @@ export class HomeComponent implements OnInit {
     title: 'All Nurses',
   };
 
-  public dialogData!: IPageData;
-  public loadNewNurses!: [];
+  private dialogData!: IPageData;
+  private loadNewNurses!: [];
+  public dataSource!: MatTableDataSource<ITableColsData>;
+
 
   loadInitData() {
     this.dialogData = {
@@ -35,8 +38,28 @@ export class HomeComponent implements OnInit {
   public colsData: ITableColsData[] = [
     { key: 'name', display: 'Name' },
     { key: 'email', display: 'Email' },
-    { key: 'createdAt', display: 'Created At' },
-    { key: 'updatedAt', display: 'Updated At' },
+    {
+      key: 'createdAt',
+      display: 'Created At',
+      config: {
+        isSpecial: true,
+        handleSpecial: (date: string) => {
+          const newDate = new DatePipe('en-IN').transform(date, 'dd-MMM-yyyy (h:mm a)')
+          return newDate || '';
+        }
+      }
+    },
+    {
+      key: 'updatedAt',
+      display: 'Updated At',
+      config: {
+        isSpecial: true,
+        handleSpecial: (date: string) => {
+          const newDate = new DatePipe('en-IN').transform(date, 'dd-MMM-yyyy (h:mm a)')
+          return newDate || '';
+        }
+      }
+    },
     {
       key: 'action',
       display: 'Action',
@@ -46,11 +69,11 @@ export class HomeComponent implements OnInit {
           {
             icon: 'refresh',
             title: 'Change Request',
-            handleAction: (x: any) => {
+            handleAction: (nurse: { _id: string, name: string }) => {
               this.loadInitData();
-              this.dialogData.for = x._id;
+              this.dialogData.for = nurse._id;
               this.dialogData.newNurses = this.loadNewNurses;
-              this.dialogData.nurses?.push(x);
+              this.dialogData.nurses?.push(nurse);
               this.openDialog();
               return true;
             }
@@ -61,20 +84,23 @@ export class HomeComponent implements OnInit {
     }
   ];
 
-  dataSource!: MatTableDataSource<unknown>;
+  constructor(
+    private commonHttpService: CommonHttpService,
+    private paginatorService: ToggleMatDrawerService,
+    private dialog: MatDialog
+  ) { }
 
-  constructor(private commonHttpService: CommonHttpService, private paginatorService: ToggleMatDrawerService, private dialog: MatDialog) { }
-
-  private nursesLoader() {
-    // const loadRequest = this.commonHttpService.getAllUsers();
-    const loadRequest = this.commonHttpService.getUsersBasedOnCondition(environment.roles[2]._id, 'true');
+  private nursesLoader(_id?: string) {
+    const loadRequest = this.commonHttpService.getUsersBasedOnRole(environment.nurse._id);
     if (loadRequest) {
       loadRequest.subscribe({
         next: (response) => {
           const data =
             Object(response).data
-              .filter((nurse: { assignedDoctor: string | any[]; }) => nurse.assignedDoctor.length > 0)
-              .filter((nurse: { assignedDoctor: { _id: string | null; }[]; }) => nurse.assignedDoctor[0]._id === localStorage.getItem('_id'));
+              .filter(
+                (nurse: { assignedDoctor: { _id: string }[]; }) =>
+                  nurse.assignedDoctor.length > 0 && nurse.assignedDoctor[0]._id === localStorage.getItem('_id')
+              );
           this.dataSource = new MatTableDataSource(data);
           this.dataSource.paginator = this.paginatorService.getPaginator();
         }
@@ -82,10 +108,27 @@ export class HomeComponent implements OnInit {
 
       loadRequest.subscribe({
         next: (response) => {
-          const data = Object(response).data.filter((user: { assignedDoctor: any; }) => !user.assignedDoctor.length);
+          const data = Object(response).data.filter(
+            (user: { assignedDoctor: [] }) => !user.assignedDoctor.length
+          );
           this.loadNewNurses = data;
         }
       });
+
+      if (_id) {
+        this.sendReminder(_id);
+      }
+    }
+  }
+
+  private sendReminder(_id: string) {
+    const loadRequest = this.commonHttpService.createReminder(_id);
+    if (loadRequest) {
+      loadRequest.subscribe({
+        next: (response) => {
+          console.log(response);
+        }
+      })
     }
   }
 
@@ -106,8 +149,7 @@ export class HomeComponent implements OnInit {
           const data = { for: result.for, replacement: result.replacement, reason: result.reason };
           this.commonHttpService.createChangeRequest(data).subscribe({
             next: (response) => {
-              this.nursesLoader();
-              console.log(response);
+              this.nursesLoader(Object(response).data._id);
             }
           })
         }

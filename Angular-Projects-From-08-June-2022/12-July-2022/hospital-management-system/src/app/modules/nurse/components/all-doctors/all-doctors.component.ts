@@ -15,14 +15,15 @@ import { NurseHttpService } from '../../services/nurse.service';
   styleUrls: ['./all-doctors.component.scss']
 })
 export class AllDoctorsComponent implements OnInit {
+  public dialogData!: IPageData;
+  private loadDocsList!: [];
+  private loadAssignedDocsList!: [];
+  private loadFor!: string;
+  public dataSource!: MatTableDataSource<ITableColsData>;
+
   public pageInfo: IPageInfo = {
     title: 'All Doctors',
   };
-
-  public dialogData!: IPageData;
-  public loadDocsList!: [];
-  public loadAssignedDocsList!: any[];
-  public loadFor!: string;
 
   public colsData: ITableColsData[] = [
     { key: 'name', display: 'Name' },
@@ -78,51 +79,58 @@ export class AllDoctorsComponent implements OnInit {
     }
   }
 
-  dataSource!: MatTableDataSource<unknown>;
-
-  constructor(private commonHttpService: CommonHttpService, private paginatorService: ToggleMatDrawerService, private dialog: MatDialog, private nurseHttpService: NurseHttpService) { }
+  constructor(
+    private commonHttpService: CommonHttpService,
+    private paginatorService: ToggleMatDrawerService,
+    private dialog: MatDialog,
+    private nurseHttpService: NurseHttpService
+  ) { }
 
   private loadAssigedDocs() {
-    const loadRequest = this.commonHttpService.getAllUsers();
+    const loadRequest = this.commonHttpService.getUsersBasedOnRole(environment.nurse._id);
     if (loadRequest) {
       loadRequest.subscribe({
         next: (response) => {
           const data = Object(response).data
-            .filter((nurse: {
-              assignedDoctor: boolean; _id: string | null;
-            }) => nurse._id === localStorage.getItem('_id') && nurse.assignedDoctor)
-            .filter((nurse: { assignedDoctor: string | any[]; }) => nurse.assignedDoctor !== undefined && nurse.assignedDoctor.length > 0)[0]
+            .filter((nurse: { _id: string; }) => nurse._id === localStorage.getItem('_id'))
+            .filter((nurse: { assignedDoctor: []; }) => nurse.assignedDoctor.length > 0)
+            .at(0)
             .assignedDoctor;
 
-          this.loadFor = data[0]._id;
+          this.loadFor = data.at(0)._id;
           this.loadAssignedDocsList = data;
           this.dataSource = new MatTableDataSource(data);
           this.dataSource.paginator = this.paginatorService.getPaginator();
         }
       });
     }
+    this.loadAllDocs();
   }
 
   private loadAllDocs() {
-    const loadRequest = this.commonHttpService.getAllUsers();
+    const loadRequest = this.commonHttpService.getUsersBasedOnRole(environment.doctor._id);
     if (loadRequest) {
       loadRequest.subscribe({
         next: (response) => {
-          const data = Object(response).data;
-          const commonFilter = data.filter((user: {
-            _id: string; role: string; nurses: string | any[];
-          }) => {
-            return user.role === environment.roles[1]._id && user._id !== this.loadFor
-          });
-          this.loadDocsList = commonFilter;
+          this.loadDocsList = Object(response).data.filter(
+            (user: { _id: string }) => user._id !== this.loadFor
+          );
         }
       });
     }
   }
 
+  private sendRemider(_reqId: string) {
+    const loadRequest = this.commonHttpService.createReminder(_reqId);
+    if (loadRequest) {
+      loadRequest.subscribe({
+        next: (response) => console.log(response)
+      })
+    }
+  }
+
   ngOnInit(): void {
     this.loadAssigedDocs();
-    this.loadAllDocs();
     this.loadInitData();
   }
 
@@ -138,12 +146,8 @@ export class AllDoctorsComponent implements OnInit {
           const data = { for: result.for, replacement: result.replacement, reason: result.reason };
           this.commonHttpService.createChangeRequest(data).subscribe({
             next: (response) => {
-              // this.commonHttpService.createReminder(Object(response).data._id).subscribe({
-              //   next: (response) => {
-              //     console.log(response);
-              //   }
-              // })
-              console.log(response)
+              this.sendRemider(Object(response).data._id);
+              console.log(response);
             }
           })
         }

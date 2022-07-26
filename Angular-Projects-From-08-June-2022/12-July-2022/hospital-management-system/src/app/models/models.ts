@@ -1,33 +1,31 @@
-export interface demoTableData {
-    name: string;
-    position: number;
-    weight: number;
-    symbol: string;
-}
-
 // Page Info Interfaces
 export interface IPageInfo {
     title: string;
     config?: IPageConfig;
 }
 
+export interface IRequestReminder {
+
+}
+
 export interface IPageData {
+    _id?: string;
     title?: string;
     name?: string;
     email?: string;
     role?: string;
     action?: string;
     speciality?: string;
-    assignedDoctor?: string;
+    assignedDoctor?: string | [];
     for?: string;
     replacement?: string;
     reason?: string;
     to?: string;
     message?: string;
-    docsList?: [];
-    assignedDocsList?: any[];
+    docsList?: string[];
+    assignedDocsList?: string[];
     nurses?: any[];
-    newNurses?: any[];
+    newNurses?: string[];
 }
 
 export interface IPageConfig {

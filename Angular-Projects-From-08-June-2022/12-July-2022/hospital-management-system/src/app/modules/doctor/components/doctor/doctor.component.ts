@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { IPageInfo } from 'src/app/models/models';
+import { CommonHttpService } from 'src/app/modules/common-services/common-http.service';
 
 @Component({
   selector: 'app-doctor',
@@ -8,6 +9,7 @@ import { IPageInfo } from 'src/app/models/models';
 })
 export class DoctorComponent implements OnInit {
   @Input() pageInfo!: IPageInfo;
+  public user = { name: 'loading...', email: '' };
 
   public dashTitle = 'Doctor';
 
@@ -17,9 +19,23 @@ export class DoctorComponent implements OnInit {
     { name: 'Messages', link: '../all-messages', icon: 'chat_outline' }
   ]
 
-  constructor() { }
+  constructor(private commonHttpService: CommonHttpService) { }
+
+  private loadUserProfile() {
+    const loadRequest = this.commonHttpService.getProfile();
+    if (loadRequest) {
+      loadRequest.subscribe({
+        next: (response) => {
+          const data = Object(response).data;
+          this.user.name = data.name;
+          this.user.email = data.email;
+        }
+      })
+    }
+  }
 
   ngOnInit(): void {
+    this.loadUserProfile();
   }
 
 }

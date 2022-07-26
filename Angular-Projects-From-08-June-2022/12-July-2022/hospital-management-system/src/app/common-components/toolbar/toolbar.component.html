@@ -4,12 +4,15 @@
   </button>
   <span>{{ title + " Panel" }}</span>
   <span class="toolbar-spacer"></span>
+  <span *ngIf="user">
+    <small>Welcome, {{ user.name }}</small>
+  </span>
   <button
     mat-icon-button
     aria-label="menu options icon"
     [matMenuTriggerFor]="menu"
   >
-    <mat-icon>more_vert</mat-icon>
+    <mat-icon>account_circle_outlined</mat-icon>
   </button>
 </mat-toolbar>
 <mat-menu #menu="matMenu">

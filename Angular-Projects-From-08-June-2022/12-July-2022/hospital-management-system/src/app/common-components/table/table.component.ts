@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { demoTableData, ITableColsData } from 'src/app/models/models';
+import { ITableColsData } from 'src/app/models/models';
 import { ToggleMatDrawerService } from 'src/app/shared-services/toggle-mat-drawer.service';
 
 @Component({
@@ -10,7 +10,7 @@ import { ToggleMatDrawerService } from 'src/app/shared-services/toggle-mat-drawe
   styleUrls: ['./table.component.scss']
 })
 export class TableComponent implements OnInit, AfterViewInit {
-  @Input('dataSource') tableDataSource = new MatTableDataSource();
+  @Input('dataSource') tableDataSource!: MatTableDataSource<any>;
   @Input() action!: string;
   @Input() colsData: ITableColsData[] = [];
   @ViewChild(MatPaginator) paginator!: MatPaginator;

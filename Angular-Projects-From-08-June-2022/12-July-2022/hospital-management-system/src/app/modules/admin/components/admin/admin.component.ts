@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { IPageInfo } from 'src/app/models/models';
+import { CommonHttpService } from 'src/app/modules/common-services/common-http.service';
 
 @Component({
   selector: 'app-admin',
@@ -9,6 +10,7 @@ import { IPageInfo } from 'src/app/models/models';
 export class AdminComponent implements OnInit {
   @Input() pageInfo!: IPageInfo;
   public dashTitle = 'Admin';
+  public user = { name: 'loading...', email: '' };
 
   public adminMenuData = [
     { name: 'Doctors', link: '../all-doctors', icon: 'vaccines_outline' },
@@ -17,7 +19,22 @@ export class AdminComponent implements OnInit {
     { name: 'Notifications', link: '../all-notifications', icon: 'notifications_outline' }
   ]
 
-  constructor() { }
+  constructor(private commonHttpService: CommonHttpService) { }
 
-  ngOnInit(): void { }
+  private loadUserProfile() {
+    const loadRequest = this.commonHttpService.getProfile();
+    if (loadRequest) {
+      loadRequest.subscribe({
+        next: (response) => {
+          const data = Object(response).data;
+          this.user.name = data.name;
+          this.user.email = data.email;
+        }
+      })
+    }
+  }
+
+  ngOnInit(): void {
+    this.loadUserProfile();
+  }
 }
